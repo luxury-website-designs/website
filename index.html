@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Atelier Digital - We Build Websites for Realtors</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    
+    <link href="https://uploads-ssl.webflow.com/6380bb0f2d13f94f9151c0cd/css/somatic-technologies.webflow.ab2257e20.css" rel="stylesheet" type="text/css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Studio McGee Style Overrides & Customizations --- */
+        :root {
+            --bg-light: #FBFBF9;
+            --bg-secondary: #F4F3F0;
+            --text-dark: #3a3a3a;
+            --text-muted: #6b6b6b;
+            --accent: #A08A7D;
+            --border-color: #e5e1dc;
+            --header-bg: #EAE6E1; /* New Taupe White variable */
+        }
+        body { background-color: var(--bg-light); color: var(--text-dark); font-family: 'Inter', sans-serif; }
+        .page-wrapper, .scroll-wrapper { background-color: transparent; }
+        .heading-jumbo { font-family: 'Lora', serif; color: var(--text-dark); }
+        .paragraph-big { font-family: 'Inter', sans-serif; color: var(--text-muted); font-size: 1.25rem; line-height: 1.6; }
+        .paragraph-light { color: var(--text-muted); }
+        .section { padding: 8rem 2rem; position: relative; z-index: 1; } /* Ensure sections are on top */
+        .section.hero-section { padding-top: 4rem; } /* Reduced top padding for hero */
+        .section.inverse { background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); }
+        .section.footer { background-color: var(--bg-secondary); }
+        .navbar { background-color: rgba(234, 230, 225, 0.8) !important; /* UPDATED: Taupe white bg */ backdrop-filter: blur(10px); z-index: 100; }
+        .logo-text { color: var(--text-dark); font-family: 'Lora', serif; font-weight: 500; }
+        .nav-link { color: var(--text-muted); text-transform: none; font-size: 1rem; }
+        .nav-link:hover { color: var(--text-dark); }
+        .button.inverse { background-color: var(--text-dark); color: var(--bg-light); border-radius: 99px; transition: all 0.3s ease; }
+        .button.inverse:hover { background-color: #000; }
+        .burger-line { background-color: var(--text-dark); }
+        .block.hero {
+            padding-bottom: 15vh; /* Adjusted padding to move heading up */
+        }
+        .hero-image-wrapper { border-radius: 1rem; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .hero-image { width: 100%; height: 100%; object-fit: cover; }
+        [text-split] { opacity: 0; }
+        html.w-editor [text-split] { opacity: 1; }
+        .word { overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; transform-origin: bottom; }
+        .numbering.inverse { color: var(--accent); }
+        h2 { font-family: 'Lora', serif; }
+        
+        /* --- PORTFOLIO COLLAGE STYLES --- */
+        .portfolio-collage {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 300px);
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+        .collage-item {
+            overflow: hidden;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .collage-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .collage-item:hover img {
+            transform: scale(1.05);
+        }
+        .collage-item-1 { grid-column: 1 / 3; grid-row: 1 / 3; }
+        .collage-item-2 { grid-column: 3 / 4; grid-row: 1 / 2; }
+        .collage-item-3 { grid-column: 4 / 5; grid-row: 1 / 2; }
+        .collage-item-4 { grid-column: 3 / 5; grid-row: 2 / 3; }
+        .collage-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .collage-item:hover .overlay { opacity: 1; }
+        .collage-item .overlay h3 { font-family: 'Lora', serif; font-size: 1.5rem; margin: 0; }
+        .collage-item .overlay p { margin: 0.25rem 0 0; opacity: 0.8; }
+
+        /* --- UPDATED PRICING STYLES --- */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Force 3 side-by-side columns on larger screens */
+            gap: 2rem;
+            align-items: stretch;
+            margin-top: 4rem;
+        }
+        .pricing-card { background-color: #fff; border: 1px solid var(--border-color); border-radius: 1rem; padding: 2.5rem; display: flex; flex-direction: column; text-align: center; }
+        .pricing-card.professional { border-color: var(--accent); box-shadow: 0 0 25px rgba(160, 138, 125, 0.2); transform: scale(1.05); }
+        .pricing-card h3 { font-family: 'Lora', serif; font-size: 1.5rem; color: var(--text-dark); }
+        .pricing-card .price { font-size: 2.5rem; font-weight: 600; color: var(--text-dark); margin: 1rem 0 0.5rem; }
+        .pricing-card .price-subtitle { font-size: 1rem; color: var(--text-muted); margin-bottom: 2rem; }
+        .pricing-card .features-list { text-align: left; margin: 0 auto 2rem; padding-left: 1.5rem; color: var(--text-muted); list-style-type: '✓  '; flex-grow: 1; }
+        .pricing-card .features-list li { margin-bottom: 0.75rem; }
+        
+        .contact-section { background-color: var(--bg-secondary); text-align: center; }
+        .logo-text.inverse { color: var(--text-dark); }
+        .paragraph-xsmall { color: var(--text-muted); }
+        .paragraph-xsmall a { color: var(--text-muted); text-decoration: underline; }
+        .paragraph-xsmall a:hover { color: var(--text-dark); }
+
+        /* Media queries */
+        @media (max-width: 991px) {
+            #code-background { display: none; }
+            .pricing-card.professional { transform: none; } /* Disable zoom on tablet */
+            .pricing-grid {
+                grid-template-columns: 1fr; /* Stack cards on tablets and smaller */
+            }
+        }
+        @media (max-width: 767px) {
+            .portfolio-collage {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 250px);
+            }
+            .collage-item-1, .collage-item-2, .collage-item-3, .collage-item-4 {
+                grid-column: auto;
+                grid-row: auto;
+            }
+        }
+
+        /* --- UPDATED: Static Code Background --- */
+        #code-background {
+            position: absolute; /* Changed from fixed to absolute */
+            top: 0;
+            left: 0;
+            width: 33.33vw;
+            /* height is set by JS */
+            background: var(--bg-light);
+            color: var(--text-muted);
+            font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow: hidden;
+            z-index: 0; /* Behind content but above body bg */
+            padding: 1rem;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        #code-background pre {
+            margin: 0;
+            white-space: pre;
+        }
+        /* UPDATED: Muted color scheme for code */
+        .code-keyword { color: #9B887B; }
+        .code-function { color: #8a7d74; }
+        .code-string { color: #9c8c82; }
+        .code-comment { color: #b0a69f; }
+        .code-variable { color: #6b6b6b; }
+        .code-operator { color: #3a3a3a; }
+        .code-number { color: #A08A7D; }
+    </style>
+</head>
+<body>
+    <!-- Running Code Background Container -->
+    <div id="code-background">
+        <pre id="code-content"></pre>
+    </div>
+
+    <div data-animation="default" class="navbar w-nav" data-easing2="ease-in-quart" data-easing="ease-out-quart" data-collapse="medium" role="banner" data-duration="400">
+        <div class="navbar-container">
+            <a href="#home" class="brand w-nav-brand">
+                <h3 class="logo-text">Atelier Digital</h3>
+            </a>
+            <nav role="navigation" class="nav-menu w-nav-menu">
+                <a href="#mission" class="nav-link w-inline-block"><div>Our Mission</div></a>
+                <a href="#services" class="nav-link w-inline-block"><div>Services</div></a>
+                <a href="#portfolio" class="nav-link w-inline-block"><div>Our Work</div></a>
+                <a href="#pricing" class="nav-link w-inline-block"><div>Pricing</div></a>
+            </nav>
+            <a href="#contact" class="button inverse w-button">Contact</a>
+            <div class="burger-wrapper w-nav-button" aria-label="menu" role="button" tabindex="0">
+                <div class="burger-line top"></div>
+                <div class="burger-line"></div>
+            </div>
+        </div>
+        <div class="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0"></div>
+    </div>
+
+    <div id="luxy" class="scroll-wrapper">
+        <div class="section wf-section hero-section">
+            <div id="home" class="id-navigator thin"></div>
+            <div class="wrapper">
+                <div class="block hero">
+                    <div class="center-items">
+                        <div letters-slide-up="" text-split="" class="heading-jumbo xlarge" style="font-size: clamp(2.5rem, 8vw, 7rem);">
+                            We build websites for realtors.
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image-wrapper">
+                     <img src="https://github.com/Jacksoncott1/website1/blob/main/website.jpg?raw=true" 
+                          alt="A beautiful, modern home exterior" class="hero-image">
+                </div>
+            </div>
+        </div>
+        
+        <div id="mission" class="section inverse wf-section">
+            <div class="wrapper">
+                <div class="block">
+                    <div class="center-items">
+                        <div class="heading-jumbo small">Our Mission</div>
+                        <p class="paragraph-big" style="max-width: 800px;">
+                            We believe a realtor's website should be their most powerful asset. Our mission is to combine timeless design with powerful technology, creating beautiful, intuitive, and effective online platforms. We are dedicated to helping top agents elevate their digital presence, build trust with clients, and drive meaningful business growth.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="services" class="section wf-section">
+            <div class="wrapper">
+                <div class="block">
+                    <div class="center-items">
+                        <div class="heading-jumbo small">Everything You Need to Succeed Online</div>
+                        <p class="paragraph-big">From initial concept to final launch, we've got you covered.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="half-block third inverse">
+                        <h2 class="numbering inverse">1</h2>
+                        <h2>Bespoke Design</h2>
+                        <p class="paragraph-light mobile-left">We create stunning, user-centric designs that capture your brand's essence and build trust with your clients.</p>
+                    </div>
+                    <div class="half-block third inverse">
+                        <h2 class="numbering inverse">2</h2>
+                        <h2>Powerful Development</h2>
+                        <p class="paragraph-light mobile-left">Using the latest technologies, we build fast, secure, and beautiful websites with seamless IDX integration.</p>
+                    </div>
+                    <div class="half-block third inverse">
+                        <h2 class="numbering inverse">3</h2>
+                        <h2>Lead Generation</h2>
+                        <p class="paragraph-light mobile-left">We optimize your site to rank higher in search results and convert visitors into valuable leads.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="portfolio" class="section inverse wf-section">
+              <div class="wrapper">
+                      <div class="block">
+                          <div class="center-items">
+                                <div class="heading-jumbo small">Our Work</div>
+                                <p class="paragraph-big">A curated look at our recent projects.</p>
+                          </div>
+                      </div>
+                      <div class="portfolio-collage">
+                          <!-- UPDATED LINKS -->
+                          <a href="https://jacksoncott1.github.io/demo1/" target="_blank" class="collage-item collage-item-1">
+                              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Spacious modern living room">
+                              <div class="overlay"><h3>Montecito Estate</h3><p>Luxury Property Portal</p></div>
+                          </a>
+                          <a href="https://spark-designs.github.io/demo4/" target="_blank" class="collage-item collage-item-2">
+                              <img src="https://onekindesign.com/wp-content/uploads/2017/03/Modern-Coastal-Home-MHK-Architecture-01-1-Kindesign.jpg" alt="Bright and airy coastal living room">
+                              <div class="overlay"><h3>Coastal Living</h3><p>Vacation Rental Platform</p></div>
+                          </a>
+                          <a href="https://spark-designs.github.io/demo3/" target="_blank" class="collage-item collage-item-3">
+                              <img src="https://images.unsplash.com/photo-1558036117-15d82a90b9b1?q=80&w=1965&auto=format&fit=crop" alt="Cozy bedroom with natural light">
+                              <div class="overlay"><h3>Aspen Group</h3><p>Agent Branding</p></div>
+                          </a>
+                          <a href="https://spark-designs.github.io/demo2/" target="_blank" class="collage-item collage-item-4">
+                              <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop" alt="House exterior at dusk">
+                              <div class="overlay"><h3>Park Avenue</h3><p>City Condos</p></div>
+                          </a>
+                      </div>
+              </div>
+        </div>
+
+        <div id="pricing" class="section wf-section">
+            <div class="wrapper">
+                <div class="block">
+                    <div class="center-items">
+                        <div class="heading-jumbo small">Find Your Perfect Plan</div>
+                        <p class="paragraph-big">Transparent pricing for every need.</p>
+                    </div>
+                </div>
+                <!-- UPDATED PRICING SECTION -->
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <div class="price">$299</div>
+                        <div class="price-subtitle">One-Time Setup Fee</div>
+                        <ul class="features-list">
+                            <li>Custom Single-Page Design</li>
+                            <li>Mobile & Tablet Responsive</li>
+                            <li>Contact & Lead Form</li>
+                            <li>Basic SEO Setup</li>
+                            <li>Domain Connection Support</li>
+                        </ul>
+                        <a href="#contact" class="button inverse w-button">Get Started</a>
+                    </div>
+                    <div class="pricing-card professional">
+                        <h3>Professional</h3>
+                        <div class="price">$299</div>
+                        <div class="price-subtitle">+ $49 / month</div>
+                        <ul class="features-list">
+                            <li>Everything in Basic, plus:</li>
+                            <li><b>Full Multi-Page Website (5 pages)</b></li>
+                            <li><b>IDX / MLS Integration</b></li>
+                            <li>Secure Hosting & Maintenance</li>
+                            <li>Priority Email Support</li>
+                        </ul>
+                        <a href="#contact" class="button inverse w-button">Most Popular</a>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Premium</h3>
+                        <div class="price">$499+</div>
+                        <div class="price-subtitle">+ $49 / month</div>
+                        <ul class="features-list">
+                             <li>Everything in Professional, plus:</li>
+                            <li><b>Unlimited Pages & Posts</b></li>
+                            <li>Advanced SEO & Analytics</li>
+                            <li>Blog & Neighborhood Guides</li>
+                            <li>CRM Integration</li>
+                        </ul>
+                        <a href="#contact" class="button inverse w-button">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UPDATED CONTACT SECTION -->
+        <div class="section inverse padding-bottom wf-section contact-section">
+            <div id="contact" class="id-navigator"></div>
+            <div class="wrapper">
+                <div class="block">
+                    <div class="center-items">
+                        <div class="heading-jumbo small">Let's Build Your Digital Presence</div>
+                        <p class="paragraph-big" style="max-width: 800px;">
+                            Ready to elevate your brand and generate more leads? We're here to help you create a stunning, high-performing website that reflects the quality of your business. Let's discuss your vision and how we can bring it to life.
+                        </p>
+                        <p class="paragraph-big" style="max-width: 800px; margin-top: 2rem;">
+                            <strong>Give us a call to get started:</strong>
+                            <br>
+                            <a href="tel:832-510-5620" style="font-size: 2rem; font-weight: 600; color: var(--accent); text-decoration: none; letter-spacing: 1px;">832-510-5620</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section footer wf-section">
+            <div class="wrapper">
+                <div class="block flex vertical">
+                       <a href="#home" class="brand footer-brand w-nav-brand">
+                               <h3 class="logo-text inverse">Atelier Digital</h3>
+                       </a>
+                </div>
+                <div class="block flex vertical">
+                    <div class="half-block flex center">
+                        <p class="paragraph-xsmall">© Copyright 2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6380bb0f2d13f94f9151c0cd" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://uploads-ssl.webflow.com/6380bb0f2d13f94f9151c0cd/js/webflow.4b9837f3e.js" type="text/javascript"></script>
+    <script src="https://min30327.github.io/luxy.js/dist/js/luxy.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+    <script>
+        // --- Original Animation Script ---
+        var isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+        if (!isMobile) {
+            luxy.init({ wrapper: '#luxy', wrapperSpeed: 0.1 });
+        }
+        window.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+            let typeSplit = new SplitType("[text-split]", { types: "words, chars", tagName: "span" });
+            function createScrollTrigger(triggerElement, timeline) {
+                ScrollTrigger.create({ trigger: triggerElement, start: "top 80%", onEnter: () => timeline.play() });
+            }
+            document.querySelectorAll("[letters-slide-up]").forEach(el => {
+                let tl = gsap.timeline({ paused: true });
+                tl.from(el.querySelectorAll(".char"), { yPercent: 100, duration: 0.8, ease: "power2.out", stagger: { amount: 0.6 } });
+                createScrollTrigger(el, tl);
+            });
+            document.querySelectorAll("[words-fade-in]").forEach(el => {
+                let tl = gsap.timeline({ paused: true });
+                tl.from(el.querySelectorAll(".word"), { opacity: 0, duration: 0.5, ease: "power1.out", stagger: { amount: 0.4 } });
+                createScrollTrigger(el, tl);
+            });
+            gsap.set("[text-split]", { opacity: 1 });
+        });
+    </script>
+    <script>
+        // --- UPDATED: Static Code Background Script ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const isDesktop = window.matchMedia("(min-width: 992px)").matches;
+            if (!isDesktop) return;
+
+            const codeContainer = document.getElementById('code-background');
+            const codeContent = document.getElementById('code-content');
+            const missionSection = document.getElementById('mission');
+            if (!codeContainer || !codeContent || !missionSection) return;
+
+            // --- Set height dynamically to stop at the mission section ---
+            const missionTop = missionSection.offsetTop;
+            codeContainer.style.height = `${missionTop}px`;
+            
+            // Fade in the container to a semi-translucent state
+            codeContainer.style.opacity = '0.6';
+
+            const codeSnippets = [
+                `<span class="code-comment">// Initializing IDX Property Fetcher...</span>`,
+                `<span class="code-keyword">const</span> <span class="code-variable">realtorApi</span> <span class="code-operator">=</span> <span class="code-keyword">new</span> <span class="code-function">RealtorService</span>(<span class="code-string">'API_KEY_XYZ'</span>);`,
+                `<span class="code-keyword">async function</span> <span class="code-function">fetchListings</span>(<span class="code-variable">area</span>, <span class="code-variable">filters</span>) {`,
+                `  <span class="code-keyword">const</span> <span class="code-variable">properties</span> <span class="code-operator">=</span> <span class="code-keyword">await</span> <span class="code-variable">realtorApi</span>.<span class="code-function">getListings</span>({ <span class="code-variable">location</span>: <span class="code-variable">area</span>, ...<span class="code-variable">filters</span> });`,
+                `  <span class="code-function">console</span>.<span class="code-function">log</span>(<span class="code-string">\`Found \${<span class="code-variable">properties</span>.<span class="code-variable">length</span>} listings.\`</span>);`,
+                `  <span class="code-function">renderProperties</span>(<span class="code-variable">properties</span>);`,
+                `  <span class="code-keyword">return</span> <span class="code-variable">properties</span>;`,
+                `}`,
+                ``,
+                `<span class="code-comment">// UI Component for Property Card</span>`,
+                `<span class="code-keyword">function</span> <span class="code-function">PropertyCard</span>({ <span class="code-variable">listing</span> }) {`,
+                `  <span class="code-keyword">return</span> (`,
+                `    <span class="code-operator">&lt;</span><span class="code-keyword">div</span> <span class="code-variable">className</span>=<span class="code-string">"property-card"</span><span class="code-operator">&gt;</span>`,
+                `      <span class="code-operator">&lt;</span><span class="code-keyword">img</span> <span class="code-variable">src</span>=<span class="code-string">{</span><span class="code-variable">listing</span>.<span class="code-variable">mainImage</span><span class="code-string">}</span> <span class="code-operator">/&gt;</span>`,
+                `      <span class="code-operator">&lt;</span><span class="code-keyword">h3</span><span class="code-operator">&gt;</span>{<span class="code-variable">listing</span>.<span class="code-variable">address</span>}<span class="code-operator">&lt;/</span><span class="code-keyword">h3</span><span class="code-operator">&gt;</span>`,
+                `      <span class="code-operator">&lt;</span><span class="code-keyword">p</span><span class="code-operator">&gt;</span>$<span class="code-function">formatPrice</span>(<span class="code-variable">listing</span>.<span class="code-variable">price</span>)<span class="code-operator">&lt;/</span><span class="code-keyword">p</span><span class="code-operator">&gt;</span>`,
+                `    <span class="code-operator">&lt;/</span><span class="code-keyword">div</span><span class="code-operator">&gt;</span>`,
+                `  );`,
+                `}`,
+                ``,
+                `<span class="code-comment">// Example React component state</span>`,
+                `<span class="code-keyword">const</span> [<span class="code-variable">filters</span>, <span class="code-variable">setFilters</span>] <span class="code-operator">=</span> <span class="code-function">useState</span>({`,
+                `  <span class="code-variable">bedrooms</span>: <span class="code-number">3</span>,`,
+                `  <span class="code-variable">bathrooms</span>: <span class="code-number">2</span>,`,
+                `  <span class="code-variable">hasPool</span>: <span class="code-keyword">true</span>`,
+                `});`,
+                ``,
+                `<span class="code-comment">// Handle user input for filters</span>`,
+                `<span class="code-keyword">const</span> <span class="code-function">handleFilterChange</span> <span class="code-operator">=</span> (<span class="code-variable">event</span>) <span class="code-operator">=></span> {`,
+                `  <span class="code-function">setFilters</span>({`,
+                `    <span class="code-operator">...</span><span class="code-variable">filters</span>,`,
+                `    [<span class="code-variable">event</span>.<span class="code-variable">target</span>.<span class="code-variable">name</span>]: <span class="code-variable">event</span>.<span class="code-variable">target</span>.<span class="code-variable">value</span>`,
+                `  });`,
+                `};`,
+                ``,
+                `<span class="code-comment">// Trigger API call when filters change</span>`,
+                `<span class="code-function">useEffect</span>(() <span class="code-operator">=></span> {`,
+                `  <span class="code-function">fetchListings</span>(<span class="code-string">'Beverly Hills, CA'</span>, <span class="code-variable">filters</span>);`,
+                `}, [<span class="code-variable">filters</span>]);`,
+            ];
+
+            // Calculate how many lines can fit in the container
+            const computedStyle = window.getComputedStyle(codeContent);
+            const lineHeight = parseFloat(computedStyle.lineHeight);
+            const containerHeight = codeContainer.clientHeight;
+            // Add a buffer of a few lines to ensure it fills the space
+            const maxLines = Math.floor(containerHeight / lineHeight) + 5;
+
+            let allLines = [];
+            let lineIndex = 0;
+
+            function typeLine() {
+                // Stop the animation when all lines are typed
+                if (lineIndex >= codeSnippets.length) {
+                    return; 
+                }
+
+                // Add the new line to our master array of typed lines
+                allLines.push(codeSnippets[lineIndex]);
+
+                // Get the last `maxLines` number of lines to display
+                const visibleLines = allLines.slice(-maxLines);
+
+                // Update the content with only the visible lines
+                codeContent.innerHTML = visibleLines.join('\n');
+
+                lineIndex++;
+                setTimeout(typeLine, 100); // Control the typing speed
+            }
+
+            typeLine();
+        });
+    </script>
+</body>
+</html>
